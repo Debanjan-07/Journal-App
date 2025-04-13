@@ -4,6 +4,7 @@ import com.example.journal.entity.JournalEntity;
 import com.example.journal.entity.User;
 import com.example.journal.repository.JournalEntryRepository;
 import com.example.journal.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,40 +20,39 @@ public class JournalEntryService {
 
     @Autowired
     private UserService userService;
+
     @Autowired
     private UserRepository userRepository;
 
-    //Used to return all the data into the database
-    public List<JournalEntity> getAll(){
+    public List<JournalEntity> getAll() {
         return journalEntryRepository.findAll();
     }
 
-
-    //Used to Add the data into the database
+    @Transactional
     public void saveEntry(JournalEntity journalEntity, String userName) {
         User user = userService.findByUserName(userName);
-        if(user != null){
+        if (user != null) {
             journalEntity.setUser(user);
-            JournalEntity.setDate(LocalDateTime.now());
+            journalEntity.setDate(LocalDateTime.now()); // fixed: not static
             user.getJournalEntries().add(journalEntity);
             userService.saveEntry(user);
         }
-
-
     }
 
-    //used to find the data based on the id
-    public Optional<JournalEntity> findById(int id){
+    public void saveEntry(JournalEntity journalEntity) {
+        journalEntryRepository.save(journalEntity);
+    }
+
+    public Optional<JournalEntity> findById(int id) {
         return journalEntryRepository.findById(id);
     }
 
-    //used to delete the data based on the id
-    public void deleteById(int id, String userName){
+    public void deleteById(int id, String userName) {
         User user = userService.findByUserName(userName);
-        if(user != null){
-        user.getJournalEntries().removeIf(x -> x.getId()== id);
-        userService.saveEntry(user);
-        journalEntryRepository.deleteById(id);
+        if (user != null) {
+            user.getJournalEntries().removeIf(entry -> entry.getId() == id);
+            userService.saveEntry(user);
+            journalEntryRepository.deleteById(id);
         }
     }
 }
