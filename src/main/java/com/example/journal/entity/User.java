@@ -2,8 +2,10 @@ package com.example.journal.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+
 import jakarta.persistence.*;
 import lombok.*;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     @JsonIgnore
     private List<JournalEntity> journalEntries = new ArrayList<>();
+
+    private List<String> roles;
 
     public User(){
 

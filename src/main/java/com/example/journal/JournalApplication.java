@@ -19,8 +19,8 @@ public class JournalApplication {
 	}
 
 
-	@Bean
-	public PlatformTransactionManager transactionManager(EntityManagerFactory emf){        // this method help to management transaction
-		return new JpaTransactionManager(emf);
-	}
+//	@Bean
+//	public PlatformTransactionManager transactionManager(EntityManagerFactory emf){        // this method help to management transaction
+//		return new JpaTransactionManager(emf);
+//	}
 }
