@@ -27,11 +27,14 @@ public class UserService {
 
 
     //Used to Add the data into the database
-    public boolean saveEntry(User user) {
+    public boolean saveNewUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(Arrays.asList("USER"));
         userRepository.save(user);
         return true;
+    }
+    public void saveUser(User user){
+        userRepository.save(user);
     }
 
 
