@@ -3,6 +3,7 @@ package com.example.journal.service;
 
 import com.example.journal.entity.User;
 import com.example.journal.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -44,11 +45,19 @@ public class UserService {
     }
 
     //used to delete the data based on the id
-    public void deleteById(int id){
-        userRepository.deleteById(id);
+    @Transactional
+    public void deleteByUserName(String name){
+        userRepository.deleteByUserName(name);
     }
     public User findByUserName(String userName){
         return userRepository.findByUserName(userName);
+    }
+
+    public boolean saveAdmin(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoles(Arrays.asList("USER","ADMIN"));
+        userRepository.save(user);
+        return true;
     }
 
 

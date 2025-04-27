@@ -17,9 +17,14 @@ public class PublicController {
     public String healthcheck(){
         return "All is Well ....";
     }
+
+
     @PostMapping("/create-user")
     public boolean saveUser(@RequestBody User user){
         return userService.saveNewUser(user);
     }
+
+
+
 
 }
