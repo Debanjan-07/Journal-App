@@ -1,22 +1,3 @@
 spring:
-  application:
-    name : journal
-
-
-  datasource:
-    url : jdbc:mysql://localhost:3306/springboot
-    username : root
-    password : Debanjan@2004
-
-
-  jpa :
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate :
-        format_sql : true
-
-  main :
-    allow-circular-references: true
-
+  profiles:
+    active : dev
